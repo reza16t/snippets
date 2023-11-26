@@ -1,0 +1,211 @@
+{    "component": {
+        "prefix": "component",
+        "body": [
+            "",
+            "export default function ${1:$TM_FILENAME_BASE}()",
+            "{",
+            "\treturn <div>${2:}</div>",
+            "}"
+        ]
+    },    "UseState": {
+        "prefix": "UseState",
+        "body": [
+            "const [${1:state}, set_${1:state}] = useState(${2:});"
+        ]
+    },    "OnChange": {
+        "prefix": "OnChange",
+        "body": [
+            " value={${1:}} onChange={e => set_${1:}(e.target.value)}"
+        ]
+    },
+        "log": {
+        "prefix": "log",
+        "body": [
+            "console.log(${1:$TM_SELECTED_TEXT})"
+        ]
+    },    "Usereducer": {
+        "prefix": "Usereducer",
+        "body": [
+            "const initialState = {${1:}};",
+            "\tfunction reducer(state, action) {",
+            "\t\tswitch (action.type) {",
+            "\t\t\t ${2:}"
+            "\t\t}",
+            "\t}",
+            "\tconst [state, dispatch] = useReducer(reducer, initialState);"
+        ]
+    },    "BrowserRouter": {
+        "prefix": "Routes",
+        "body": [
+            "\t\t\t\t<Routes>",
+            "\t\t\t\t\t<Route />",
+            "\t\t\t\t</Routes>",
+        ]
+    },    "imBrowserRouter": {
+        "prefix": "imBrowserRouter",
+        "body": [
+            "import { BrowserRouter, Routes, Route } from 'react-router-dom';"
+        ]
+    },    "imLink": {
+        "prefix": "imLink",
+        "body": [
+            "import {Link} from \"react-router-dom\""
+        ]
+    },
+    "importCSSModule": {
+    "prefix": "imstyles",
+    "scope": "javascript,typescript,javascriptreact",
+    "body": ["import styles from './css_model/${TM_FILENAME_BASE}.module.css'"],
+    "description": "Import CSS Module as `styles`"
+  },    "UseEffect_req": {
+    "prefix": "UseEffect_req",
+    "body": [
+        "useEffect(() => {",
+        "\t\tasync function Fetch() {",
+        "\t\t\ttry {",
+        "\t\t\t\tconst res = await fetch(URL);",
+        "\t\t\t\tconst data = await res.json();",
+        "\t\t\t\tconsole.log(data);",
+        "\t\t\t} catch (err) {",
+        "\t\t\t\tthrow Error('there was an error loading data.. ');",
+        "\t\t\t} finally {",
+        "\t\t\t\tset_isLoding(false);",
+        "\t\t\t}",
+        "\t\t}",
+        "\t\tFetch();",
+        "\t}, []);"
+    ]
+},    "FormatData": {
+        "prefix": "FormatData",
+        "body": [
+            "const formatDate = date =>",
+            "\tnew Intl.DateTimeFormat('en', {",
+            "\t\tday: 'numeric',",
+            "\t\tmonth: 'long',",
+            "\t\tyear: 'numeric',",
+            "\t\tweekday: 'long'",
+            "\t}).format(new Date(date));"
+        ]
+    },    "UseSearchParams": {
+        "prefix": "UseSearchParams",
+        "body": [
+            "const [${1:}, set_${1:}] = useSearchParam${1:}();"
+        ]
+    },    "getSearchParams": {
+        "prefix": "getSearchParams",
+        "body": [
+            "const ${1:lat} = SearchParams.get('${1:lat}');"
+        ]
+    },    "UseNavigata": {
+        "prefix": "UseNavigata",
+        "body": [
+            "const navigate = useNavigat${1:}();"
+        ]
+    },     "CreateContext": {
+        "prefix": "CreateContext",
+        "body": [
+            "import { createContext, useState, useEffect,useContext } from 'react';",
+            "",
+            "const ${TM_FILENAME_BASE} = createContext();",
+            "",
+            "function ${1:any}Provider ( { children } )",
+            "{",
+            "\treturn <${TM_FILENAME_BASE}.Provider value={ {${2:}} }>{ children }</${TM_FILENAME_BASE}.Provider>",
+            "}",
+            "function use${1:} ()",
+            "{",
+            "\tconst Context = useContext( ${TM_FILENAME_BASE} )",
+            "\tif ( Context == undefined )",
+            "\t\tthrow new Error (\"${TM_FILENAME_BASE} was used outside the ${1:}Provider \")",
+            "\treturn Context ",
+            "}",
+            "export { use${1:any}, ${1:any}Provider };"
+        ]
+    },    "UseEffectPost": {
+        "prefix": "UseEffectPost",
+        "body": [
+            "async function addCity(newCity) {",
+            "\t\ttry {",
+            "\t\t\tconst res = await fetch(URL, {",
+            "\t\t\t\tmethod: 'POST',",
+            "\t\t\t\tbody: JSON.stringify(n),",
+            "\t\t\t\theaders: {",
+            "\t\t\t\t\t'Content-Type': 'application/json'",
+            "\t\t\t\t}",
+            "\t\t\t});",
+            "\t\t\tconst data = await res.json();",
+            "\t\t\tconsole.log(data);",
+            "\t\t} catch (err) {",
+            "\t\t\tthrow Error('there was an error loading data.. ');",
+            "\t\t} finally {",
+            "\t\t\tset_isLoding(false);",
+            "\t\t}",
+            "\t}"
+        ]
+    },    "Case": {
+        "prefix": "Case",
+        "body": [
+            "\tcase '${1:}':",
+            "\t\treturn { ...state, ${2:}: ${3:action.payload} };"
+        ]
+    },    "UseNavigation": {
+    "prefix": "UseNavigation",
+    "body": [
+        "const navigation =useNavigation().state === 'loading';"
+    ]
+},    "FormAction": {
+    "prefix": "FormAction",
+    "body": [
+        "export async function action({ request }) {",
+        "\tconst formData = await request.formData();",
+        "",
+        "\tconst data = Object.fromEntries(formData);",
+        "\tconsole.log(data);",
+        "\treturn data;",
+        "}"
+    ]
+},  "UseRedux": {
+    "prefix": "UseRedux",
+    "body": [
+      "import { createSlice } from \"@reduxjs/toolkit\";",
+      "const initialState = {};",
+      "const ${TM_FILENAME_BASE} = createSlice({",
+      "\tname: \"${1:}\",",
+      "\tinitialState,",
+      "\treducers: {${2:}},",
+      "});",
+      "export const {${3:}} = ${TM_FILENAME_BASE}.actions;",
+      "export default ${TM_FILENAME_BASE}.reducer;",
+    ]
+  },  "UseSelector": {
+    "prefix": "UseSelector",
+    "body": [
+      "const ${1:} = useSelector(state => state.${2:}.${1:} )"
+    ]
+  },  "UseDispatch": {
+    "prefix": "UseDispatch",
+    "body": [
+      "const dispatch = useDispatc${1:}()"
+    ]
+  },  "Styled": {
+    "prefix": "Styled",
+    "body": [
+      "import styled,{css}+ from \"styled-components\";",
+      "",
+      "export const ${TM_FILENAME_BASE} = styled.${1:div}`",
+      "",
+      "`;"
+    ]
+  },  "StyledProps": {
+    "prefix": "StyledProps",
+    "body": [
+      "${(props)=>",
+      "\tprops.type === \"${1:}\"&&",
+      "\t\tcss`",
+      "\t\t\t${2:} ",
+      "\t\t`",
+      "\t\t}"
+    ]
+  }
+
+}
