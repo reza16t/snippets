@@ -1,4 +1,11 @@
 	{
+		"IEslint": {
+			"scope": "javascript,typescript,html,javascriptreact,typescriptreact,json",
+			"prefix": "IEslint",
+			"body": [
+				"//npm i eslint prettier eslint-config-prettier eslint-plugin-prettier eslint-config-airbnb eslint-plugin-node eslint-plugin-import eslint-plugin-jsx-ally eslint-plugin-react --save-dev"
+			]
+		},
 		"log": {
 			"scope": "javascript,typescript,html,javascriptreact,typescriptreact",
 			"prefix": "log",
@@ -396,26 +403,22 @@
 			]
 		},
 		"ExpressServer": {
-			"scope": "javascript,typescript,html,javascriptreact,typescriptreact",
 			"prefix": "ExpressServer",
+			"scope": "javascript,typescript,html,javascriptreact,typescriptreact",
 			"body": [
 				"const { log } = require('console');",
-				"const { readFileSync } = require('fs');",
 				"const express = require('express');",
 				"const app = express();",
-				"const tours = JSON.parse(",
-				"\treadFileSync(`${1:$}{__dirname}/dev-data/data/tours-simple.json`, 'utf-8')",
-				");",
 				"app.use(express.json());",
-				"app.get('${1:}', (req, res) => {",
+				"app.get('/', (req, res) => {",
 				"\tres",
 				"\t\t.status(200)",
-				"\t\t.json({ status: 'success', results: tours.length, data: { tours } });",
+				"\t\t.json({ status: 'success', results: \"fuck u\", data:  \"fuck u \"});",
 				"});",
 				"",
 				"const PORT = 3000;",
 				"app.listen(PORT, () => {",
-				"\tlog(`App running on port ${1:$}{PORT}...... `);",
+				"\tlog(`App running on port ${PORT}...... `);",
 				"});"
 			]
 		},
@@ -509,19 +512,6 @@
 				"\tconsole.log(con.connections);",
 				"\tconsole.log('fuck u db');",
 				"});"
-			]
-		},
-		"\\": {
-			"scope": "javascript,typescript,html,javascriptreact,typescriptreact",
-			"prefix": "DBModel",
-			"body": [
-				"const tourSchema = new mongoose.Schema({",
-				"\tname: {",
-				"\t\ttype: String,",
-				"\t\trequire: [true, 'tour most have name '],",
-				"\t},",
-				"});",
-				"const Tors = mongoose.model('${1:}', tourSchema);"
 			]
 		},
 		"mongooseFilter": {
@@ -667,6 +657,145 @@
 			"prefix": "UseLocation",
 			"body": [
 				"const { pathname } = useLocation();"
+			]
+		},
+		"MongoosSchemaTS": {
+			"prefix": "MongooseSchemaTS",
+			"body": [
+				"const userSchema = new Schema<IUser>({",
+				"\tname: { type: String, required: true },",
+				"\temail: { type: String, required: true },",
+				"\tavatar: String",
+				" });"
+			]
+		},   "mongooseSortTS": {
+			"prefix": "mongooseSortTS",
+			"body": [
+				"\tif (req.query.sort) {",
+				"\t\tconst sortBy = (req.query.sort as string).split(\",\").join(\" \");",
+				"\t\tquery = query.sort(sortBy);",
+				"\t} else {",
+				"\t\tquery = query.sort(\"-createdAt\");",
+				"\t}"
+			]
+		},   "mongooseFieldsTS": {
+			"prefix": "mongooseFieldsTS",
+			"body": [
+				"\tif (req.query.fields) {",
+				"\t\tconst fields = (req.query.fields as string).split(\",\").join(\" \");",
+				"\t\tquery = query.select(fields);",
+				"\t} else {",
+				"\t\tquery = query.select(\"-__v\");",
+				"\t}"
+			]
+		},   "mongoosePaginationTS": {
+			"prefix": "mongoosePaginationTS",
+			"body": [
+				" const page = +req.query.page || 1;",
+				"\tconst limit = +req.query.limit || 10;",
+				"\tconst skip = (page - 1) * limit;",
+				"\tquery = query.skip(skip).limit(limit);"
+			]
+		},   "mongooseFeatureClassTS": {
+			"prefix": "mongooseFeatureClassTS",
+			"body": [
+				"export class ApiFeatures {",
+				"\tquery: any;",
+				"\tqueryStr: any;",
+				"\tconstructor(query, queryStr) {",
+				"\t\tthis.query = query;",
+				"\t\tthis.queryStr = queryStr;",
+				"\t}",
+				"\tfilter() {",
+				"\t\tconst objQuery = { ...this.queryStr };",
+				"\t\tconst excludedField = [\"page\", \"sort\", \"limit\", \"fields\"];",
+				"\t\texcludedField.forEach((i) => {",
+				"\t\t\tdelete objQuery[i];",
+				"\t\t});",
+				"",
+				"\t\tlet objStr = JSON.stringify(objQuery);",
+				"\t\tobjStr = objStr.replace(/\\b(gt|gte|lt|lte)\\b/g, (i) => `\\$${i}`);",
+				"\t\tthis.query =this.query.find(JSON.parse(objStr));",
+				"\t\treturn this;",
+				"\t}",
+				"\tsort() {",
+				"\t\tif (this.queryStr.sort) {",
+				"\t\t\tconst sortBy = (this.queryStr.sort as string).split(\",\").join(\" \");",
+				"\t\t\tthis.query = this.query.sort(sortBy);",
+				"\t\t} else {",
+				"\t\t\tthis.query = this.query.sort(\"-createdAt\");",
+				"\t\t}",
+				"\t\treturn this;",
+				"\t}",
+				"\tfields() {",
+				"\t\tif (this.queryStr.fields) {",
+				"\t\t\tconst fields = (this.queryStr.fields as string).split(\",\").join(\" \");",
+				"\t\t\tthis.query = this.query.select(fields);",
+				"\t\t}",
+				"\t\treturn this;",
+				"\t}",
+				"\tpagination() {",
+				"\t\tconst page = +this.queryStr.page || 1;",
+				"\t\tconst limit = +this.queryStr.limit || 10;",
+				"\t\tconst skip = (page - 1) * limit;",
+				"\t\tthis.query = this.query.skip(skip).limit(limit);",
+				"\t\tthis.query = this.query.select(\"-__v -id\");",
+				"",
+				"\t\t// if (this.queryStr.page) {",
+				"\t\t//\t const numTours = await this.query.countDocuments();",
+				"\t\t//\t if (skip > numTours) throw new Error(\"This page does not exist!\");",
+				"\t\t// }",
+				"\t\treturn this;",
+				"\t}",
+				"}",
+				""
+			]
+		},   "mongooseMidlewareF": {
+			"prefix": "mongooseMidlewareF",
+			"body": [
+				"userSchema.pre(\"\", function () {",
+				"\tthis.slug = \"fuck u\";",
+				"});"
+			]
+		},   "expressErrorFunction": {
+			"prefix": "expressErrorFunction",
+			"body": [
+				"app.all(\"*\", (req, res, next) => {",
+				"\tnext(new ErrorHandler(`can't find ${req.originalUrl} on this server!`, 404));",
+				"});",
+				"",
+				"const errorHandler: ErrorRequestHandler = (err, req, res, next) => {",
+				"\terr.statusCode = err.statusCode || 500;",
+				"\terr.status = err.status || \"error\";",
+				"\tres.status(err.statusCode).json({",
+				"\t\tstatus: err.status,",
+				"\t\tmessage: err.message,",
+				"\t});",
+				"};"
+			]
+		},   "ExpressErrorClass": {
+			"prefix": "ExpressErrorClass",
+			"body": [
+				"export class AppError extends Error {",
+				"\tstatusCode: number;",
+				"\tstatus: string;",
+				"\tisOperational: boolean;",
+				"\tconstructor(message, statusCode) {",
+				"\t\tsuper(message);",
+				"",
+				"\t\tthis.statusCode = statusCode;",
+				"\t\tthis.status = `${statusCode}`.startsWith(\"4\") ? \"fail\" : \"error\";",
+				"\t\tthis.isOperational = true;",
+				"",
+				"\t\tError.captureStackTrace(this, this.constructor);",
+				"\t}",
+				"}",
+				""
+			]
+		},   "UseExpressErrorClass": {
+			"prefix": "UseExpressErrorClass",
+			"body": [
+				"\tnext(new ErrorHandler(`can't find ${req.originalUrl} on this server!`, 404));",
 			]
 		}
 	}
